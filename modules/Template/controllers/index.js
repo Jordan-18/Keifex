@@ -48,13 +48,13 @@ class Controllers{
             })
             
             res.status(200).json(
-                Helper.ResponseFormatter({
-                    code     :res.statusCode,
-                    message  : "Template Data",
-                    data     : response, 
-                    page     : page,
-                    request  : req
-                })
+                Helper.ResponseFormatter(
+                    res.statusCode,
+                    "Template Data",
+                    response, 
+                    page,
+                    req
+                )
             )
         } catch (error) {
             res.status(500).json(Helper.ResponseFormatter(res.statusCode,'Error',error));
@@ -80,7 +80,6 @@ class Controllers{
                             res.status(201).json(Helper.ResponseFormatter(res.statusCode,"New Template Data Created"));
                         }
                 })
-
             }
         } catch (error) {
             res.status(500).json(Helper.ResponseFormatter(res.statusCode,'Error',error));
@@ -88,11 +87,66 @@ class Controllers{
     }
     update = async(req, res)=>{
         try {
-            
+            const errors = validationResult(req);
+            if(!errors.isEmpty()){
+                res.status(505).json(Helper.ResponseFormatter(res.statusCode,'Errors',errors));
+            }else{
+                Template.findOne({
+                    where : {
+                        template_id : req.params.id
+                    }
+                }).then(async function(templates){
+                    if(templates){
+                        await Template.update(req.body,{
+                            where : {
+                                template_id : req.params.id
+                            }
+                        }).then(function(newData, createData){
+                            if(!newData){
+                                res.status(505).json(Helper.ResponseFormatter(res.statusCode,'Errors',newData));
+                            }else{
+                                res.status(201).json(Helper.ResponseFormatter(
+                                    res.statusCode,
+                                    'Updated Data',
+                                ));
+                            }
+                        })
+                    }else{
+                        res.status(404).json(Helper.ResponseFormatter(res.statusCode,'Data Not Found'));
+                    }
+                })
+            }
         } catch (error) {
             res.status(500).json(Helper.ResponseFormatter(res.statusCode,'Error',error));
         }
     }
+    delete = async(req, res)=>{
+        try {
+            const response = await Template.findOne({
+                where : {
+                    template_id : req.params.id
+                }
+            }).then(async function(templates){
+                if(templates){
+                    await Template.destroy({
+                        where : {
+                            template_id : req.params.id
+                        }
+                    }).then(function(deletedData){
+                        if(!deletedData){
+                            res.status(500).json(Helper.ResponseFormatter(res.statusCode,'Errors',deletedData));
+                        }else{
+                            res.json(Helper.ResponseFormatter(res.statusCode,"Data Has Deleted"));
+                        }
+                    })
+                }else{
+                    res.status(404).json(Helper.ResponseFormatter(res.statusCode,'Data Not Found'));
+                }
+            })
+        } catch (error) {
+            res.status(500).json(Helper.ResponseFormatter(res.statusCode,'Error',error));
+        }
+    } 
 }
 
 module.exports = Controllers

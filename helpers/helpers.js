@@ -82,12 +82,14 @@ class Helpers{
                 }
                 
             }
-            response = {meta : {
+            response = {
+                meta : {
                     code:code,
                     status:status[code],
                     message:message
                 },
-                data,pages
+                data,
+                pages
             }
             return response;
         }

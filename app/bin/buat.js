@@ -27,12 +27,12 @@ fs.readdir(source, (err, module) =>{
 
                 fs.readFile(destFile, 'utf-8', (err, data) => {
                     if(err) return console.log('Error Message:'+err);
-                    let lowerCaseData = data.toLowerCase();
-                    let modifiedData = lowerCaseData
-                                            .replace(/template_/g, `${nameFile}_`)
-                                            .replace(/template/g, name)
+                    let modifiedData = data
+                                        .replace(/template_/g, `${nameFile}_`)
+                                        .replace(/Template/g, name)
+                                        .replace(/template/g, name)
                     if(folder == 'routes'){
-                        modifiedData = lowerCaseData.replace(/template/g, nameFile);
+                        modifiedData = data.replace(/template/g, nameFile);
                     }
 
                     fs.writeFile(destFile, modifiedData, (err) => {

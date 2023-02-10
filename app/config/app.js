@@ -2,7 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const cors = require('cors');
 const dotenv = require('dotenv');dotenv.config();
-const Route = require('./route.js');
+const Route = require('./route');
 
 const app = express();
 const oneDay = 1000 * 60 * 60 * 24;

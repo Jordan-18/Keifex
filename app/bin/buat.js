@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 const fs = require('fs');
-const name = process.argv[2];
+function capitalize(s){ return s[0].toUpperCase() + s.slice(1);}
+const name = capitalize(process.argv[2]);
+const nameFile = name.toLowerCase();
 
-const source = 'app/modules/Template'; const destination = 'app/modules/'+name;
+const source = 'app/bin/Template'; 
+const destination = 'app/modules/'+name;
 
 fs.mkdirSync(destination, {recursive:true})
 
@@ -21,6 +24,21 @@ fs.readdir(source, (err, module) =>{
 
             fs.copyFile(sourceFile, destFile, err => {
                 if(err) return console.log('Unable to copy this, Error Message:'+err);
+
+                fs.readFile(destFile, 'utf-8', (err, data) => {
+                    if(err) return console.log('Error Message:'+err);
+                    let lowerCaseData = data.toLowerCase();
+                    let modifiedData = lowerCaseData
+                                            .replace(/template_/g, `${nameFile}_`)
+                                            .replace(/template/g, name)
+                    if(folder == 'routes'){
+                        modifiedData = lowerCaseData.replace(/template/g, nameFile);
+                    }
+
+                    fs.writeFile(destFile, modifiedData, (err) => {
+                        if(err) return console.log('Error Message:'+err);
+                    })
+                })
             })
         })
 

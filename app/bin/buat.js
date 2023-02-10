@@ -31,6 +31,7 @@ fs.readdir(source, (err, module) =>{
                                         .replace(/template_/g, `${nameFile}_`)
                                         .replace(/Template/g, name)
                                         .replace(/template/g, name)
+
                     if(folder == 'routes'){
                         modifiedData = data.replace(/template/g, nameFile);
                     }

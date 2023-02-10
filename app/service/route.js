@@ -1,17 +1,15 @@
 const express = require('express');
 const app = express();
-const Template = require('./modules/Template/routes/route.js')
 const dotenv = require('dotenv');dotenv.config();
 const fs = require('fs');
 const listEndpoints = require('express-list-endpoints')
-const path = process.env.MODULE_PATH;
+const path = './app/modules';
 const Routes = []
 
 app.get('/', async (req, res) => {
     try {
         res.status(200).json({
             status: 200,
-            sequelize: "Sequelize Connection Successfully",
             route:listEndpoints(app)
         });
     } catch (error) {
@@ -25,7 +23,7 @@ fs.readdir(path,(err, files) => {
         return;
     }
     files.forEach(file => {
-        Routes[file] = require(path+'/'+file+'/routes/route.js')
+        Routes[file] = require('../modules/'+file+'/routes/route.js')
         app.use(Routes[file])
     });
 })

@@ -22,6 +22,6 @@
     "uuid": "^9.0.0"
   },
   "bin": {
-    "buat": "app/bin/buat.js"
+    "keif": "app/bin/buat.js"
   }
 }

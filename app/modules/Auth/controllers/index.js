@@ -2,27 +2,27 @@ const {Helpers} = require('../../../helpers/helpers');
 const Helper = new Helpers();
 const { Op } = require('sequelize');
 const {validationResult} = require('express-validator');
-const Template = require('../models/model');
+const Auth = require('../models/model');
 
 class Controllers{
     index = async(req, res) => {
         try {
             const {page, search, limit, offset} = Helper.GetPaginate(req)
-            const response = await Template.findAndCountAll({
+            const response = await Auth.findAndCountAll({
                 where : {
-                    template_name: { [Op.like]: '%'+search+'%'}
+                    auth_name: { [Op.like]: '%'+search+'%'}
                 },  
                 offset: offset,
                 limit : limit,
                 order : [
-                    ['template_name', 'ASC']
+                    ['auth_name', 'ASC']
                 ]
             })
             
             res.status(200).json(
                 Helper.ResponseFormatter(
                     res.statusCode,
-                    "Template Data",
+                    "Auth Data",
                     response, 
                     page, 
                     req
@@ -35,22 +35,22 @@ class Controllers{
     edit = async(req, res)=> {
         try {
             const {page, search, limit, offset} = Helper.GetPaginate(req)
-            const response = await Template.findAndCountAll({
+            const response = await Auth.findAndCountAll({
                 where : {
-                    template_id : req.params.id,
-                    template_name: { [Op.like]: '%'+search+'%'}
+                    auth_id : req.params.id,
+                    auth_name: { [Op.like]: '%'+search+'%'}
                 },  
                 offset: offset,
                 limit : limit,
                 order : [
-                    ['template_name', 'ASC']
+                    ['auth_name', 'ASC']
                 ]
             })
             
             res.status(200).json(
                 Helper.ResponseFormatter(
                     res.statusCode,
-                    "Template Data",
+                    "Auth Data",
                     response, 
                     page,
                     req
@@ -66,12 +66,12 @@ class Controllers{
             if(!errors.isEmpty()){
                 res.status(505).json(Helper.ResponseFormatter(res.statusCode,'Errors',errors));
             }else{
-                await Template.create(req.body)
+                await Auth.create(req.body)
                     .then(function(news, created){
                         if(!news){
-                            res.status(500).json(Helper.ResponseFormatter(res.statusCode,"Template Input Errors"));
+                            res.status(500).json(Helper.ResponseFormatter(res.statusCode,"Auth Input Errors"));
                         }else{
-                            res.status(201).json(Helper.ResponseFormatter(res.statusCode,"New Template Data Created"));
+                            res.status(201).json(Helper.ResponseFormatter(res.statusCode,"New Auth Data Created"));
                         }
                 })
             }
@@ -85,15 +85,15 @@ class Controllers{
             if(!errors.isEmpty()){
                 res.status(505).json(Helper.ResponseFormatter(res.statusCode,'Errors',errors));
             }else{
-                Template.findOne({
+                Auth.findOne({
                     where : {
-                        template_id : req.params.id
+                        auth_id : req.params.id
                     }
-                }).then(async function(templates){
-                    if(templates){
-                        await Template.update(req.body,{
+                }).then(async function(Auths){
+                    if(Auths){
+                        await Auth.update(req.body,{
                             where : {
-                                template_id : req.params.id
+                                auth_id : req.params.id
                             }
                         }).then(function(newData, createData){
                             if(!newData){
@@ -116,15 +116,15 @@ class Controllers{
     }
     delete = async(req, res)=>{
         try {
-            const response = await Template.findOne({
+            const response = await Auth.findOne({
                 where : {
-                    template_id : req.params.id
+                    auth_id : req.params.id
                 }
-            }).then(async function(templates){
-                if(templates){
-                    await Template.destroy({
+            }).then(async function(Auths){
+                if(Auths){
+                    await Auth.destroy({
                         where : {
-                            template_id : req.params.id
+                            auth_id : req.params.id
                         }
                     }).then(function(deletedData){
                         if(!deletedData){

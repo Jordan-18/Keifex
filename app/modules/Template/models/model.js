@@ -3,13 +3,13 @@ const db = require('../../../config/database');
 
 const {DataTypes} = sequelize;
 
-const Auth = db.define('Auths', {
-    auth_id: {
+const Template = db.define('templates', {
+    template_id: {
         type:sequelize.UUID,
         primaryKey: true,
         defaultValue: sequelize.UUIDV4,
     },
-    auth_name: DataTypes.STRING
+    template_name: DataTypes.STRING
 }, {
     paranoid:true,
     deleteAt: 'deleted_at',
@@ -22,4 +22,4 @@ const Auth = db.define('Auths', {
     await db.sync()
 })();
 
-module.exports = Auth
+module.exports = Template

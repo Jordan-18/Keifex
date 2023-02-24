@@ -2,9 +2,11 @@
 const fs = require('fs');
 function capitalize(s){ return s[0].toUpperCase() + s.slice(1);}
 const Command = process.argv[2]
-const name = capitalize(process.argv[3]);
+const name = capitalize(process.argv[3])
 
-const nameFile = name.toLowerCase(); const source = 'app/bin/Template'; const destination = 'app/modules/'+name;
+const nameFile = name.toLowerCase(); 
+const source = 'app/bin/Template'; 
+const destination = 'app/modules/'+name;
 
 switch (Command) {
     case 'buat':
@@ -50,6 +52,15 @@ switch (Command) {
     case 'hapus':
         console.log('function Delete not exists');
         break
+    case 'columns':
+        const query = destination+'/models/query.js'
+        fs.readFile(query, 'utf8', (err, data)=>{
+            if (err) throw err;
+
+            console.log(data);
+        })
+
+        break; 
     default:
         console.log('function not exists');
         break;

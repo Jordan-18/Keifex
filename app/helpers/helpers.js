@@ -112,6 +112,8 @@ class Helpers{
     genuuid = () =>{
         return uuidv4();
     }
+
+    
 }
 
 module.exports = {

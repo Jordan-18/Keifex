@@ -4,7 +4,7 @@ const queryInterface = db.getQueryInterface();
 const {DataTypes} = sequelize;
 
 module.exports = {
-    up: queryInterface.addColumn('templates','test',{
+    update: queryInterface.addColumn('templates','test',{
         type: DataTypes.STRING,
         defaultValue: 3.14,
         allowNull: false

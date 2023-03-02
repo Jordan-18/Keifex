@@ -1,11 +1,23 @@
 #!/usr/bin/env node
 const fs = require('fs');
+const Modules = 'app/modules';
+if(process.argv[2] == undefined){
+    console.log('give command');
+    return 
+}
+if(process.argv[3] == undefined){
+    console.log('Choose a module :');
+    fs.readdir(Modules, (err, dir) => {
+        console.log(dir);
+    })
+    return 
+}
+
 function capitalize(s){ return s[0].toUpperCase() + s.slice(1);}
 const Command = process.argv[2]
 const name = capitalize(process.argv[3])
-
-const nameFile = name.toLowerCase(); 
 const source = 'app/bin/Template'; 
+const nameFile = name.toLowerCase(); 
 const destination = 'app/modules/'+name;
 
 switch (Command) {
@@ -52,15 +64,23 @@ switch (Command) {
     case 'hapus':
         console.log('function Delete not exists');
         break
-    case 'columns':
-        const query = destination+'/models/query.js'
-        fs.readFile(query, 'utf8', (err, data)=>{
-            if (err) throw err;
+    case 'migrate' :
+        if(process.argv[3] == 'all'){
+            console.log(process.argv[3]);
+        }
 
-            console.log(data);
-        })
+        if(process.argv[3] != 'all'){
+            if(process.argv[4] != undefined){
+                const MigrateCommand = (process.argv[4]).toLowerCase()
+                const query = require(destination+'/models/query')
+            }else{
+                console.log('give command Complately !!!');
+                console.log('Like : up, down ...');
+            }
+        }
+        
 
-        break; 
+        break;
     default:
         console.log('function not exists');
         break;

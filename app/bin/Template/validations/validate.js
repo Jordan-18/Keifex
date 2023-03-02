@@ -4,6 +4,4 @@ const validateCreate = [
     check('template_name','Name is Required').notEmpty()
 ]
 
-module.exports = {
-    validateCreate
-}
+module.exports = {validateCreate}

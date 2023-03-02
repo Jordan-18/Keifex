@@ -9,7 +9,7 @@ const Template = db.define('templates', {
         primaryKey: true,
         defaultValue: sequelize.UUIDV4,
     },
-    template_name: DataTypes.STRING
+    template_name: DataTypes.STRING,
 }, {
     paranoid:true,
     deleteAt: 'deleted_at',

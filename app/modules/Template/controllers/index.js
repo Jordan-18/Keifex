@@ -1,10 +1,9 @@
-const {Helpers} = require('../../../helpers/helpers');
-const Helper = new Helpers();
+const Helper = require('../../../helpers/helpers');
 const {validationResult} = require('express-validator');
 const { Op } = require('sequelize');
 const Template = require('../models/model');
 
-const Index = async(req, res) => {
+const Get = async(req, res) => {
     try {
         const {page, search, limit, offset} = Helper.GetPaginate(req)
         const response = await Template.findAndCountAll({
@@ -31,7 +30,7 @@ const Index = async(req, res) => {
         res.status(500).json(Helper.ResponseFormatter(res.statusCode,'Error',error));
     }
 }
-const Edit = async(req, res)=> {
+const Show = async(req, res)=> {
     try {
         const {page, search, limit, offset} = Helper.GetPaginate(req)
         const response = await Template.findAndCountAll({
@@ -142,8 +141,8 @@ const Destroy = async(req, res)=>{
 }
 
 module.exports = {
-    Index,
-    Edit, 
+    Get,
+    Show, 
     Store, 
     Update, 
     Destroy

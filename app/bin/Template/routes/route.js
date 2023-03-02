@@ -1,13 +1,13 @@
 const express = require('express');
-const Controllers = require('../controllers/index');
+const Controller = require('../controllers/index');
 const {validateCreate} = require('../validations/validate');
-const Controller = new Controllers()
 const router = express.Router();
 
-router.get('/template', Controller.index);
-router.get('/template/:id',Controller.edit);
-router.post('/template',validateCreate,Controller.store);
-router.patch('/template/:id',validateCreate,Controller.update);
-router.delete('/template/:id',Controller.delete);
+
+router.get('/template', Controller.Get);
+router.get('/template/:id', Controller.Show);
+router.post('/template', validateCreate, Controller.Store);
+router.patch('/template/:id',validateCreate,Controller.Update);
+router.delete('/template/:id',Controller.Destroy);
 
 module.exports = router

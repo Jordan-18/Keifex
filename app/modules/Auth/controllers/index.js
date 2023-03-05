@@ -13,7 +13,11 @@ const Login = async(req, res) => {
             res.status(500).json(Helper.ResponseFormatter(res.statusCode,'Error',errors));
         }else{
             const {user_name, user_password} = req.body;
-            const user = await User.findOne({user_name: user_name});
+            const user = await User.findOne({
+                where:{
+                    user_name: user_name
+                }
+            });
             if(user){
                 const ValidationPassword = await bcryptjs.compare(user_password, user.user_password);
                 if(ValidationPassword){
